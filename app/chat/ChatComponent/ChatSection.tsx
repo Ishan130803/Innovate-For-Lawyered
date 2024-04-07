@@ -1,8 +1,17 @@
+"use client";
 import { Prompt } from "next/font/google";
-import { FC, HTMLAttributes } from "react";
+import { FC, HTMLAttributes, useState } from "react";
 import { Chip } from "./Chip";
-import { Copy, Menu, MenuIcon, Thermometer, ThumbsDown, ThumbsUp } from "lucide-react";
-import { Button, ButtonGroup, Divider, Tooltip } from "@mui/joy";
+import {
+  Copy,
+  Menu,
+  MenuIcon,
+  Thermometer,
+  ThumbsDown,
+  ThumbsUp,
+} from "lucide-react";
+import { Button, ButtonGroup, Divider, Input, Tooltip } from "@mui/joy";
+import { SendMessageIcon } from "@/components/ui/SendMessageIcon";
 
 interface IChatSectionProps extends HTMLAttributes<HTMLDivElement> {
   width: string;
@@ -18,7 +27,7 @@ export const ChatSection: FC<IChatSectionProps> = ({ width, ...props }) => {
   ];
   return (
     <div
-      className={`w-full h-screen flex ${
+      className={`w-full h-screen flex relative justify-center ${
         !chats.length ? "justify-center items-center" : ""
       } pt-9 `}
     >
@@ -31,6 +40,18 @@ export const ChatSection: FC<IChatSectionProps> = ({ width, ...props }) => {
       ) : (
         <div className="">Write A prompt now</div>
       )}
+      <Input
+        endDecorator={<Button className = "rounded-full p-2 my-1 bg-[#5661F6] hover:bg-[#4d56d9]"><SendMessageIcon /></Button>}
+        className="absolute bottom-10 min-w-[30rem] max-w-[50rem] w-full "
+        sx={{
+          "--Input-radius": "41px",
+          '&:focus-within': {
+            outline: '2px solid #5661F6)',
+            // outlineOffset: '2px',
+          },
+        }}
+      ></Input>
+
     </div>
   );
 };
@@ -47,6 +68,22 @@ export const PromptChat: FC<IPromptChatProps> = ({
   link,
   ...props
 }) => {
+  const [likeBtn, setlikeBtn] = useState<string>("#8c8c8e");
+  const [dislikeBtn, setdislikeBtn] = useState<string>("#8c8c8e");
+  const [copyBtn, setcopyBtn] = useState<string>("#8c8c8e");
+  const toggleBtnColor = (btn, setbtn) => {
+    setbtn(btn == "#5661F6" ? "#8c8c8e" : "#5661F6");
+  };
+  const likeDislikeHandler = (btn, setbtn, otherbtn, setOtherbtn) => {
+    if (btn == "#5661F6") {
+      setbtn("#8c8c8e");
+    } else if (otherbtn == "#5661F6" && btn == "#8c8c8e") {
+      setbtn("#5661F6");
+      setOtherbtn("#8c8c8e");
+    } else {
+      setbtn("#5661F6");
+    }
+  };
   return (
     <div className="flex">
       <img className="size-[28px] mx-6 rounded-full" src="" alt="" />
@@ -81,20 +118,38 @@ export const PromptChat: FC<IPromptChatProps> = ({
             }}
           >
             <Tooltip arrow title="Like">
-              <Button>
-                <ThumbsUp color="#8c8c8e" size={18} />
+              <Button
+                onClick={() =>
+                  likeDislikeHandler(
+                    likeBtn,
+                    setlikeBtn,
+                    dislikeBtn,
+                    setdislikeBtn
+                  )
+                }
+              >
+                <ThumbsUp color={likeBtn} size={18} />
               </Button>
             </Tooltip>
             <span className="bg-[#8c8c8e] w-[1px] my-2 h-[14px]"></span>
             <Tooltip arrow title="Dislike">
-              <Button>
-                <ThumbsDown color="#8c8c8e" size={18} />
+              <Button
+                onClick={() =>
+                  likeDislikeHandler(
+                    dislikeBtn,
+                    setdislikeBtn,
+                    likeBtn,
+                    setlikeBtn
+                  )
+                }
+              >
+                <ThumbsDown color={dislikeBtn} size={18} />
               </Button>
             </Tooltip>
             <span className="bg-[#8c8c8e] w-[1px] my-2 h-[14px]"></span>
             <Tooltip arrow title="Copy">
-              <Button>
-                <Copy color="#8c8c8e" size={18} />
+              <Button onClick={() => toggleBtnColor(copyBtn, setcopyBtn)}>
+                <Copy color={copyBtn} size={18} />
               </Button>
             </Tooltip>
           </ButtonGroup>

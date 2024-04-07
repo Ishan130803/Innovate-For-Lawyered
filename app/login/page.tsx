@@ -10,7 +10,7 @@ import { FooterEnding } from "@/public/FooterEnding";
 import { Pattern } from "@/public/Pattern";
 import { GoogleLogo } from "@/public/GoogleLogo";
 import { AppleLogo } from "@/public/AppleLogo";
-import Logo from "@/public/logo.png";
+import Logo from "@/public/logo.svg";
 interface IPageProps {}
 import Image from "next/image";
 
@@ -61,7 +61,7 @@ const Page: FC<IPageProps> = (props) => {
             />
             <div className="mb-[1.5rem] text-[14px]">
               By registering for an account, you are consenting to our{" "}
-              <span className="underline text-[#5661F6]">Terms of Service</span>{" "}
+              <span className="underline text-[#5661F6] cursor-pointer">Terms of Service</span>{" "}
               and confirming that you have reviewed and accepted the{" "}
               <span className="text-[#5661F6]">Global Privacy Statement.</span>
             </div>

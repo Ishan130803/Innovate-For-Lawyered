@@ -10,6 +10,10 @@ import {
 import { Divider } from "@mui/material";
 import { ChatIcon } from "@/components/ui/ChatIcon";
 import { CardButton } from "../../components/ui/CardButtons";
+import Logo from "@/public/logo.svg";
+import Image from "next/image";
+import { LogoBrandBox } from "./ChatComponent/LogoBrandBox";
+
 interface ICardProps {
   width: string;
 }
@@ -17,9 +21,11 @@ const Chats = ["Text1", "Text2", "Text3"];
 
 export const Card: FC<ICardProps> = ({ width = "348px", ...props }) => {
   return (
-    <div className={`h-[calc(100vh-2.5rem)] w-[${width}] bg-white rounded-3xl m-4 flex flex-col`}>
+    <div
+      className={`h-[calc(100vh-2.5rem)] w-[${width}] bg-white rounded-3xl m-4 flex flex-col`}
+    >
       <div className="flex content-center">
-        <h1 className="text-[24px] self-center mx-6 my-6">LegalEase</h1>
+        <LogoBrandBox className="text-[24px] self-center mx-6 my-6 flex gap-2" />
       </div>
       <div className="flex gap-2 mx-6 my-6">
         <button className="justify-center bg-[#5661F6] hover:bg-[#4d56d9] active:bg-[#464ec4] rounded-full w-[228px] flex-grow text-white text-xs transition-colors">
@@ -34,17 +40,18 @@ export const Card: FC<ICardProps> = ({ width = "348px", ...props }) => {
         <span className="text-gray-400 text-[14px] flex-grow self-center">
           Your Conversations
         </span>
-        <span className="text-[#5661F6] self-end text-[14px] rounded-full p-2  hover:bg-slate-200 active:bg-slate-300 transition-colors">
+        <span className="text-[#5661F6] self-end text-[14px] rounded-full p-2 hover:cursor-pointer select-none  hover:bg-slate-200 active:bg-slate-300 transition-colors">
           Clear All
         </span>
       </div>
       <Divider></Divider>
+      {/* Chats are Mapped Here */}
       <div className="flex-grow my-1 overflow-scroll">
         {Chats.map((value, index) => {
           return (
             <div
               key={index}
-              className="flex mx-3 p-2 rounded-xl gap-2 hover:bg-slate-200 active:bg-slate-300 transition-colors"
+              className="flex mx-3 p-2 rounded-xl gap-2 hover:bg-slate-200 active:bg-slate-300 transition-colors hover:cursor-pointer"
             >
               <MessageSquareTextIcon />
               <div className="grid align-middle">{value}</div>
