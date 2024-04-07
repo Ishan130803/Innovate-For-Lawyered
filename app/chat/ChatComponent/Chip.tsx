@@ -11,9 +11,16 @@ interface IChipProps {
 export const Chip: FC<IChipProps> = (props) => {
   return (
     props.chipItems.length && (
-      <div className="bg-gray-200 rounded-full ">{props.chipItems.map((value,index)=>{
-        return value.icon;
-      })}</div>
+      <div className="bg-gray-200 rounded-full w-fit p-3 flex gap-2">
+        {props.chipItems.map((value, index) => {
+          return (
+            <div className="rounded-l-full flex">
+              {!index ? "" : <span>|</span>}
+              {value.icon}
+            </div>
+          );
+        })}
+      </div>
     )
   );
 };

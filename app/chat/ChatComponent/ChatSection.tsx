@@ -1,8 +1,9 @@
 import { Prompt } from "next/font/google";
 import { FC, HTMLAttributes } from "react";
 import { Chip } from "./Chip";
-import { Copy, ThumbsDown, ThumbsUp } from "lucide-react";
+import { Copy, Menu, MenuIcon, Thermometer, ThumbsDown, ThumbsUp } from "lucide-react";
 import { Button, ButtonGroup, Divider, Tooltip } from "@mui/joy";
+
 interface IChatSectionProps extends HTMLAttributes<HTMLDivElement> {
   width: string;
 }
@@ -16,12 +17,20 @@ export const ChatSection: FC<IChatSectionProps> = ({ width, ...props }) => {
     },
   ];
   return (
-    <div className="w-full h-full flex justify-center pt-9">
-      <div className={`container`}>
-        {chats.map((value, index) => {
-          return <PromptChat {...value} key={index} />;
-        })}
-      </div>
+    <div
+      className={`w-full h-screen flex ${
+        !chats.length ? "justify-center items-center" : ""
+      } pt-9 `}
+    >
+      {chats.length ? (
+        <div className={`container`}>
+          {chats.map((value, index) => {
+            return <PromptChat {...value} key={index} />;
+          })}
+        </div>
+      ) : (
+        <div className="">Write A prompt now</div>
+      )}
     </div>
   );
 };
@@ -45,13 +54,76 @@ export const PromptChat: FC<IPromptChatProps> = ({
         <span className="flex gap-2 align-middle text-[18px]">You</span>
         <p className="ml-3 font-extrathin text-[14px]">{userPrompt}</p>
         <div>
-          <span className="text-[#5661F6] text-[20px] flex gap-2">
+          <span className="text-[#5661F6] text-[20px] flex gap-2 mt-2">
             LegalEase
             <Arrow />
           </span>
           <p className="ml-3 ">{response}</p>
         </div>
-        <div></div>
+        <div className="flex gap-3 mt-1">
+          <ButtonGroup
+            className={props.className}
+            variant="soft"
+            size="sm"
+            aria-label="radius button group"
+            color="neutral"
+            sx={{
+              "--ButtonGroup-radius": "40px",
+              "--ButtonGroup-separatorColor": "none !important",
+              "& > span": {
+                zIndex: 3,
+                // background:
+                //   "linear-gradient(to top, transparent, #8c8c8e, transparent)",
+              },
+              backgroundColor: "white",
+              padding: -2,
+              width: "fit-content",
+            }}
+          >
+            <Tooltip arrow title="Like">
+              <Button>
+                <ThumbsUp color="#8c8c8e" size={18} />
+              </Button>
+            </Tooltip>
+            <span className="bg-[#8c8c8e] w-[1px] my-2 h-[14px]"></span>
+            <Tooltip arrow title="Dislike">
+              <Button>
+                <ThumbsDown color="#8c8c8e" size={18} />
+              </Button>
+            </Tooltip>
+            <span className="bg-[#8c8c8e] w-[1px] my-2 h-[14px]"></span>
+            <Tooltip arrow title="Copy">
+              <Button>
+                <Copy color="#8c8c8e" size={18} />
+              </Button>
+            </Tooltip>
+          </ButtonGroup>
+          <ButtonGroup
+            className={props.className}
+            variant="soft"
+            size="sm"
+            aria-label="radius button group"
+            color="neutral"
+            sx={{
+              "--ButtonGroup-radius": "40px",
+              "--ButtonGroup-separatorColor": "none !important",
+              "& > span": {
+                zIndex: 3,
+                background:
+                  "linear-gradient(to top, transparent, #8c8c8e, transparent)",
+              },
+              backgroundColor: "white",
+              padding: -2,
+              width: "fit-content",
+            }}
+          >
+            <Tooltip arrow title="Options">
+              <Button>
+                <MenuIcon color="#8c8c8e" size={18} />
+              </Button>
+            </Tooltip>
+          </ButtonGroup>
+        </div>
       </div>
     </div>
   );

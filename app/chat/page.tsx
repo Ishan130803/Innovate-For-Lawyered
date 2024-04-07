@@ -8,6 +8,7 @@ const Page: FC<PageProps> = (props) => {
         <div className="flex">
             <Card width="250px"/>
             <ChatSection width="250px"/>
+            
         </div>
     );
 }

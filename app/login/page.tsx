@@ -73,7 +73,7 @@ const Page: FC<IPageProps> = (props) => {
               <span>Get started free</span>
             </div>
 
-            <div className="w-full grid place-items-center my-5 gap-2 p-5 rounded-full border border-[#E0E0E0] hover:bg-slate-200 active:bg-slate-300 transition-colors">
+            <div className="hover:cursor-pointer active:cursor-progress w-full grid place-items-center my-5 gap-2 p-5 rounded-full border border-[#E0E0E0] hover:bg-slate-200 active:bg-slate-300 transition-colors">
               <div className="flex gap-2">
                 <GoogleLogo />
                 <span>Continue with Google</span>
