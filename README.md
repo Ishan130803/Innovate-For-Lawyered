@@ -3,10 +3,9 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 ## Getting Started
 
 Once launched the app in vscode run the following script to install all the packages required for this project
-'''bash
+```bash
 npm init
-'''
-
+```
 
 
 First, run the development server:
