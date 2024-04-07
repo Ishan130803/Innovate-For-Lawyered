@@ -2,6 +2,13 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
+Once launched the app in vscode run the following script to install all the packages required for this project
+'''bash
+npm init
+'''
+
+
+
 First, run the development server:
 
 ```bash
@@ -14,11 +21,10 @@ pnpm dev
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000/login) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+*At this stage, you can click on any one of the sign in options without authorization to navigate to the next page. This behaviour is temporary for demonstration purpses and will be replaced with proper authorization as the app develops*
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
 ## Learn More
 
