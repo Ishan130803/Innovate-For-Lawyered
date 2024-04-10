@@ -21,13 +21,11 @@ Database - ChromaDB
 
 # Video Demo 
 
-## Web App
+### Web App
 https://drive.google.com/file/d/1OiKXnpuxh98cdK98pbD6tT4gnnKR-RP2/view?usp=sharing
 
-
-## Mobile App
-https://drive.google.com/file/d/11FeaJM3erpHiE5fp0Cu8
-LlM58LdCTquT/view?usp=sharing
+### Mobile App
+https://drive.google.com/file/d/11FeaJM3erpHiE5fp0Cu8LlM58LdCTquT/view?usp=sharing
 
 
 
