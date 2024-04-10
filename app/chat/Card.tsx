@@ -1,17 +1,11 @@
 import { FC } from "react";
 import {
-  Divide,
-  MessageCircleIcon,
   MessageSquareTextIcon,
-  MessagesSquareIcon,
   SearchIcon,
   Settings,
 } from "lucide-react";
 import { Divider } from "@mui/material";
-import { ChatIcon } from "@/components/ui/ChatIcon";
 import { CardButton } from "../../components/ui/CardButtons";
-import Logo from "@/public/logo.svg";
-import Image from "next/image";
 import { LogoBrandBox } from "./ChatComponent/LogoBrandBox";
 
 interface ICardProps {

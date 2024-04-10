@@ -1,18 +1,14 @@
-"use client";
 import { FC, HTMLAttributes, useState } from "react";
 import { Days_One } from "next/font/google";
-import { useRouter } from "next/navigation";
 
-import { signIn } from "next-auth/react";
 import LawyeredLogo from "@/public/LogoBackground";
 import TextField from "@mui/material/TextField";
 import { FooterEnding } from "@/public/FooterEnding";
 import { Pattern } from "@/public/Pattern";
-import { GoogleLogo } from "@/public/GoogleLogo";
-import { AppleLogo } from "@/public/AppleLogo";
-import Logo from "@/public/logo.svg";
 interface IPageProps {}
-import Image from "next/image";
+import { GetStartedForFree } from "@/components/ui/login/GetStartedForFree";
+import { AppleLoginButton } from "@/components/ui/login/AppleLoginButton";
+import { GoogleLoginButton } from "@/components/ui/login/GoogleLoginButton";
 
 const days_one = Days_One({
   weight: "400",
@@ -20,7 +16,6 @@ const days_one = Days_One({
 });
 
 const Page: FC<IPageProps> = (props) => {
-  const router = useRouter();
   return (
     <>
       <div className="flex flex-wrap h-screen w-screen ">
@@ -61,31 +56,18 @@ const Page: FC<IPageProps> = (props) => {
             />
             <div className="mb-[1.5rem] text-[14px]">
               By registering for an account, you are consenting to our{" "}
-              <span className="underline text-[#5661F6] cursor-pointer">Terms of Service</span>{" "}
+              <span className="underline text-[#5661F6] cursor-pointer">
+                Terms of Service
+              </span>{" "}
               and confirming that you have reviewed and accepted the{" "}
               <span className="text-[#5661F6]">Global Privacy Statement.</span>
             </div>
 
-            <div
-              onClick={() => router.push("/chat")}
-              className="hover:cursor-pointer  w-full grid place-items-center  mb-5 mt-2 gap-2 p-5 rounded-full border border-[#E0E0E0] bg-[#5661F6] hover:bg-[#4d56d9] active:bg-[#464ec4] text-white transition-colors"
-            >
-              <span>Get started free</span>
-            </div>
+            <GetStartedForFree className="hover:cursor-pointer  w-full grid place-items-center  mb-5 mt-2 gap-2 p-5 rounded-full border border-[#E0E0E0] bg-[#5661F6] hover:bg-[#4d56d9] active:bg-[#464ec4] text-white transition-colors" />
 
-            <div className="hover:cursor-pointer active:cursor-progress w-full grid place-items-center my-5 gap-2 p-5 rounded-full border border-[#E0E0E0] hover:bg-slate-200 active:bg-slate-300 transition-colors">
-              <div className="flex gap-2">
-                <GoogleLogo />
-                <span>Continue with Google</span>
-              </div>
-            </div>
+            <GoogleLoginButton className="hover:cursor-pointer active:cursor-progress w-full grid place-items-center my-5 gap-2 p-5 rounded-full border border-[#E0E0E0] hover:bg-slate-200 active:bg-slate-300 transition-colors" />
 
-            <div className="w-full grid place-items-center  mb-5 mt-2 gap-2 p-5 rounded-full border border-[#E0E0E0]  hover:bg-slate-200 active:bg-slate-300 transition-colors">
-              <div className="flex gap-2">
-                <AppleLogo />
-                <span>Continue with Apple</span>
-              </div>
-            </div>
+            <AppleLoginButton className="w-full grid place-items-center  mb-5 mt-2 gap-2 p-5 rounded-full border border-[#E0E0E0]  hover:bg-slate-200 active:bg-slate-300 transition-colors" />
 
             <FooterEnding />
           </div>

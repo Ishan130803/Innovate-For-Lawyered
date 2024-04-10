@@ -2,9 +2,9 @@ import { Days_One } from "next/font/google";
 import React, { Children, FC, HTMLAttributes } from "react";
 import Image from "next/image";
 interface ILawyeredLogoProps extends HTMLAttributes<HTMLDivElement> {
-  height: string;
-  width: string;
-  children: React.ReactNode;
+  height?: string;
+  width?: string;
+  children?: React.ReactNode;
 }
 const days_one = Days_One({
   weight: "400",
