@@ -1,6 +1,6 @@
 "use client";
 import { Prompt } from "next/font/google";
-import { FC, HTMLAttributes, useState } from "react";
+import { FC, HTMLAttributes, useContext, useState } from "react";
 import { Chip } from "./Chip";
 import {
   Copy,
@@ -21,19 +21,19 @@ import {
 import { SendMessageIcon } from "@/components/ui/SendMessageIcon";
 import { SearchBar } from "@/components/ui/chat/SearchBar";
 import { PromptChat } from "@/components/ui/chat/PromptChat";
+import UserContext from "@/components/chatPage/contexts/UserContext";
+import { useSession } from "next-auth/react";
+import ChatSectionSelectedConvContext from "@/components/chatPage/contexts/ChatSectionSelectedConvContext";
 
 interface IChatSectionProps extends HTMLAttributes<HTMLDivElement> {
   width: string;
 }
 
 export const ChatSection: FC<IChatSectionProps> = ({ width, ...props }) => {
-  const chats = [
-    {
-      userPrompt: "Hello",
-      response: "Response",
-      link: "www.google.com",
-    },
-  ];
+  const session = useSession()
+  const data = useContext(ChatSectionSelectedConvContext)
+  const chats = data.chats
+
   return (
     <div
       className={`w-full h-screen flex relative justify-center ${
@@ -43,7 +43,7 @@ export const ChatSection: FC<IChatSectionProps> = ({ width, ...props }) => {
       {chats.length ? (
         <div className={`container`}>
           {chats.map((value, index) => {
-            return <PromptChat {...value} key={index} />;
+            return <PromptChat {...value} userName={session.data?.user.name} imageURL={session.data?.user.image} key={index} />;
           })}
         </div>
       ) : (

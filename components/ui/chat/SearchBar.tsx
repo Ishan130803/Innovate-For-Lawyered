@@ -9,7 +9,7 @@ export const SearchBar: FC<HTMLAttributes<HTMLDivElement>> = (props) => {
       <form action="/" method="post"></form>
       <Textarea
         variant="outlined"
-        className="min-w-[30rem] max-w-[50rem] flex-grow-0 w-full rounded-xl align-middle"
+        className="min-w-[30rem] p-2  max-w-[50rem] flex-grow-0 w-full rounded-xl align-middle"
         sx={{
           "--Input-radius": "90px",
           "&:focus-within": {

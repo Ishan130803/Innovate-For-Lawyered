@@ -1,25 +1,26 @@
-import { FC } from "react";
-import {
-  MessageSquareTextIcon,
-  SearchIcon,
-  Settings,
-} from "lucide-react";
+"use client";
+import { FC, useContext } from "react";
+import { SearchIcon, Settings } from "lucide-react";
 import { Divider } from "@mui/material";
 import { CardButton } from "../../components/ui/CardButtons";
 import { LogoBrandBox } from "./ChatComponent/LogoBrandBox";
+import UserContext from "@/components/chatPage/contexts/UserContext";
+import { ConversationListItem } from "@/components/ui/chat/ConversationListItem";
+import { CardInfoSettingsBtn } from "@/components/ui/chat/CardInfoSettingsBtn";
+import ChatSectionSelectedConvContext from "@/components/chatPage/contexts/ChatSectionSelectedConvContext";
 
 interface ICardProps {
   width: string;
 }
-const Chats = ["Text1", "Text2", "Text3"];
 
 export const Card: FC<ICardProps> = ({ width = "348px", ...props }) => {
+  const conversationList = useContext(UserContext);
   return (
     <div
-      className={`h-[calc(100vh-2.5rem)] w-[${width}] bg-white rounded-3xl m-4 flex flex-col`}
+      className={`h-[calc(100vh-2.5rem)] w-[300px] bg-white rounded-3xl m-4 flex flex-col`}
     >
-      <div className="flex content-center">
-        <LogoBrandBox className="text-[24px] self-center mx-6 my-6 flex gap-2" />
+      <div className="flex content-center flex-shrink-0">
+        <LogoBrandBox className="text-[24px] self-center mx-6 my-6 flex gap-2 w-[30px] h-[30px]" />
       </div>
       <div className="flex gap-2 mx-6 my-6">
         <button className="justify-center bg-[#5661F6] hover:bg-[#4d56d9] active:bg-[#464ec4] rounded-full w-[228px] flex-grow text-white text-xs transition-colors">
@@ -40,33 +41,8 @@ export const Card: FC<ICardProps> = ({ width = "348px", ...props }) => {
       </div>
       <Divider></Divider>
       {/* Chats are Mapped Here */}
-      <div className="flex-grow my-1 overflow-scroll">
-        {Chats.map((value, index) => {
-          return (
-            <div
-              key={index}
-              className="flex mx-3 p-2 rounded-xl gap-2 hover:bg-slate-200 active:bg-slate-300 transition-colors hover:cursor-pointer"
-            >
-              <MessageSquareTextIcon />
-              <div className="grid align-middle">{value}</div>
-            </div>
-          );
-        })}
-      </div>
-      <div className="flex flex-col bottom-0  w-full p-[18px] gap-4">
-        <Divider className="mx-[-18px ] "></Divider>
-        <CardButton
-          icon={<Settings />}
-          label="Settings"
-          backgroundColor="bg-[#EFEFEF]"
-          className="hover:bg-slate-200 active:bg-slate-300 transition-colors"
-        />
-        <CardButton
-          icon={<img />}
-          label="Enter User Name"
-          className="hover:bg-slate-200 active:bg-slate-300 transition-colors"
-        />
-      </div>
+      <ConversationListItem className="flex-grow my-1 overflow-scroll" />
+      <CardInfoSettingsBtn className="flex flex-col bottom-0  w-full p-[18px] gap-4" />
     </div>
   );
 };
