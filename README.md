@@ -24,9 +24,12 @@ Database - ChromaDB
 https://drive.google.com/file/d/11FeaJM3erpHiE5fp0Cu8
 LlM58LdCTquT/view?usp=sharing
 
-Preview of WebApp:
+#Preview of WebApp:
+
 ![Screenshot (102)](https://github.com/Ishan130803/Innovate-For-Lawyered/assets/96647844/d389d27b-afc2-4c1b-97f5-cfa2beea834f)
+
 ![Screenshot (99)](https://github.com/Ishan130803/Innovate-For-Lawyered/assets/96647844/f6c35153-693c-48a4-a0e7-780a4b2a9275)
+
 ![Screenshot (101)](https://github.com/Ishan130803/Innovate-For-Lawyered/assets/96647844/6eea36e8-50c7-4914-9fb3-630a19cc3b86)
 
 ## Using the WebApp (On Local Machine)
