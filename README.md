@@ -2,7 +2,7 @@
 
 A chatbot app which generates legal templates according to the user's requests!
 
-LegalEase (Mobile App) -> https://github.com/Ishan130803/[Innovate-For-Lawyered](https://github.com/vishrutgrover/legaleaseapp/)
+LegalEase (Mobile App) -> https://github.com/vishrutgrover/legaleaseapp/
 
 # Model Design
 
