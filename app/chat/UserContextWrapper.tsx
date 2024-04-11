@@ -1,8 +1,9 @@
 "use client";
 import ChatSectionSelectedConvContext from "@/components/chatPage/contexts/ChatSectionSelectedConvContext";
 import UserContext from "@/components/chatPage/contexts/UserContext";
+import { conversationSchema } from "@/types/chatSchema";
 import { useSession } from "next-auth/react";
-import { FC, HTMLAttributes } from "react";
+import { FC, HTMLAttributes, useState } from "react";
 
 export const UserContextWrapper: FC<HTMLAttributes<HTMLDivElement>> = (
   props
@@ -10,8 +11,7 @@ export const UserContextWrapper: FC<HTMLAttributes<HTMLDivElement>> = (
   const session = useSession();
   const user = session.data?.user;
   const status = session.status;
-  console.log(session);
-  const data = [
+  const [data, setdata] = useState<Array<conversationSchema>>([
     {
       convid: "1",
       chats: [
@@ -19,15 +19,19 @@ export const UserContextWrapper: FC<HTMLAttributes<HTMLDivElement>> = (
           chatid: "1",
           prompt: "Generate Me a document about AGREEMENT FOR HIRE OF MACHINERY, date is 10th of April 2024, Wednesday",
           response: "sample.pdf",
+          link:"https://www.google.com"
         },
       ],
     },
-  ];
+  ]);
+  console.log(data)
+  const [selectedConv, setselectedConv] = useState<conversationSchema>(data[0]);
   return (
     <div>
-      <ChatSectionSelectedConvContext.Provider value={data[0]}>
+
+      <ChatSectionSelectedConvContext.Provider value={{selected:selectedConv, setSelected:setselectedConv}}>
         <UserContext.Provider
-          value={{ userData: user, status: status, conversations: data }}
+          value={{ userData: user, status: status, conversations: data, setdata : setdata }}
         >
           {props.children}
         </UserContext.Provider>

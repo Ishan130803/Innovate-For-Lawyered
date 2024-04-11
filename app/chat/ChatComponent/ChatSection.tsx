@@ -32,18 +32,18 @@ interface IChatSectionProps extends HTMLAttributes<HTMLDivElement> {
 export const ChatSection: FC<IChatSectionProps> = ({ width, ...props }) => {
   const session = useSession()
   const data = useContext(ChatSectionSelectedConvContext)
-  const chats = data.chats
+  const chats = data?.selected?.chats
 
   return (
     <div
       className={`w-full h-screen flex relative justify-center ${
-        !chats.length ? "justify-center items-center" : ""
+        !chats?.length ? "justify-center items-center" : ""
       } pt-9 `}
     >
-      {chats.length ? (
+      {chats?.length ? (
         <div className={`container`}>
           {chats.map((value, index) => {
-            return <PromptChat {...value} userName={session.data?.user.name} imageURL={session.data?.user.image} key={index} />;
+            return <PromptChat {...value} className="flex my-[3rem]" userName={session.data?.user.name} imageURL={session.data?.user.image} key={index} />;
           })}
         </div>
       ) : (
