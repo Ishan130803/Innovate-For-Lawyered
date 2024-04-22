@@ -1,3 +1,5 @@
+
+//@ts-nocheck
 import { FC, HTMLAttributes } from "react";
 interface IPatternProps extends HTMLAttributes<HTMLDivElement> {
   height?: string;

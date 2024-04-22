@@ -26,7 +26,7 @@ export const CardInfoSettingsBtn: FC<HTMLAttributes<HTMLDivElement>> = (
             <></>
           )
         }
-        label={session.data?.user.name}
+        label={session.data?.user.name!}
         className="hover:bg-slate-200 active:bg-slate-300 transition-colors"
       />
     </div>

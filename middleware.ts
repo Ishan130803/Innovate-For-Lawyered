@@ -7,6 +7,13 @@ export default withAuth(
     const pathname = req.nextUrl.pathname;
     const isAuth = await getToken({ req });
     const isLoginPage = pathname.startsWith("/login");
+    if (pathname == '/') {
+      if (isAuth) {
+        return NextResponse.redirect(new URL("/chat", req.url));
+      } else {
+        return NextResponse.redirect(new URL("/login", req.url));
+      }
+    }
 
 
     if (isLoginPage) {

@@ -1,7 +1,9 @@
-"use client"
+"use client";
 import React, { ReactNode } from "react";
 import { Days_One } from "next/font/google";
-import { SessionProvider } from "next-auth/react";
+import { Card } from "./Card";
+import { SelectedConversationContextProvider } from "@/components/hooks/SelectedConversationDataContext";
+import { ConversationContextProvider } from "@/components/hooks/ConversationListContext";
 
 const days_one = Days_One({
   weight: "400",
@@ -10,10 +12,15 @@ const days_one = Days_One({
 
 export default function layout({ children }: { children: ReactNode }) {
   return (
-    <SessionProvider>
-      <div className={`h-screen w-screen bg-[#EFEFFF] ${days_one.className}`}>
-        {children}
-      </div>
-    </SessionProvider>
+    <ConversationContextProvider>
+      <SelectedConversationContextProvider>
+        <div className={`h-screen w-screen bg-[#EFEFFF] ${days_one.className}`}>
+          <div className="flex">
+            <Card width="250px" />
+            {children}
+          </div>
+        </div>
+      </SelectedConversationContextProvider>
+    </ConversationContextProvider>
   );
 }

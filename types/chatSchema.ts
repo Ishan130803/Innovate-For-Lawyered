@@ -1,12 +1,13 @@
-import { StringExpressionOperatorReturningNumber } from "mongoose";
-
 export interface chatSchema {
-  chatid : string,
-  prompt : string,
-  response: string,
+  userId: string;
+  convid: string;
+  chatid: string;
+  prompt: string;
+  response: "SUCCESS"|"FAIL"|"LOADING";
 }
 
 export interface conversationSchema {
-  convid : string,
-  chats : Array<chatSchema>
+  userId: string;
+  convid: string;
+  title: string;
 }

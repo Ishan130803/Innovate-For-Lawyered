@@ -1,3 +1,5 @@
+//@ts-nocheck
+
 import { FC } from "react";
 interface IFooterEndingProps {}
 

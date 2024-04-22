@@ -1,3 +1,5 @@
+//@ts-nocheck
+
 import { Days_One } from "next/font/google";
 import React, { Children, FC, HTMLAttributes } from "react";
 import Image from "next/image";

@@ -1,81 +1,200 @@
-import getUserTable from "@/lib/helpers/getUserTable";
-import { Collection } from "mongodb";
-import { Document } from "mongodb";
+import clientPromise from "@/lib/mongodb";
+import { Document, ObjectId } from "mongodb";
+import { NextRequest, NextResponse } from "next/server";
+import { v4 as uuidv4 } from "uuid";
+export const dynamic = "force-dynamic";
 
-export async function GET(
-  req: Request,
-  { params }: { params: { userid: string } }
-) {
-  const userCollection = (await getUserTable()) as Collection<Document>;
-
-  const user = await userCollection?.findOne({ userId: params.userid });
-  if (!user) {
-    return new Response("No such user found", { status: 404 });
-  }
-  return Response.json({ conversations: user.Conversations });
+interface routeParams {
+  params: {
+    userid: string;
+  };
 }
 
-// POST method used to add empty conversations
-export async function POST(
-  req: Request,
-  { params }: { params: { userid: string } }
-) {
-  const userCollection = (await getUserTable()) as Collection<Document>;
+export async function GET(req: NextRequest, context: routeParams) {
+  const userid = context.params.userid;
+  const convid = req.nextUrl.searchParams.get("convid");
 
-  const user = await userCollection?.findOne({ userId: params.userid });
-  if (!user) {
-    return new Response("No such user found", { status: 404 });
-  }
+  try {
+    const client = await clientPromise; // Wait for the database connection
+    const db = client.db("LegaleaseAPP");
+    const userCollection = db.collection("userAccounts");
+    const conversationCollection =
+      db.collection("userConversations") ??
+      (await db.createCollection("userConversations"));
 
-  userCollection.updateOne(
-    { userId: params.userid },
-    { $set: { conversations: [] } }
-  );
-
-  return new Response(`Created Conversations for the user`, { status: 200 });
-}
-
-//PUT will be used to add the conversations
-export async function PUT(
-  req: Request,
-  { params }: { params: { userid: string } }
-) {
-  const userCollection = (await getUserTable()) as Collection<Document>;
-
-  const user = await userCollection?.findOne({ userId: params.userid });
-  if (!user) {
-    return new Response("No such user found", { status: 404 });
-  }
-  const data: Array<Object> = await req.json();
-  if (data) {
-    userCollection.updateOne(
-      { userId: params.userid },
-      { $push: { conversations: { $each: data } } }
+    const user = await userCollection.findOne({ userId: new ObjectId(userid) });
+    if (!user) {
+      return new Response("No Such User", { status: 404 });
+    }
+    let conversations;
+    if (!convid) {
+      conversations = await conversationCollection
+        .find({ userId: userid })
+        .toArray();
+    } else {
+      conversations = await conversationCollection
+        .find({ userId: userid, convid: convid })
+        .toArray();
+    }
+    return Response.json([...conversations]);
+  } catch (error) {
+    console.error(error);
+    return new Response(
+      "Fatal Error occured while getting user conversations",
+      {
+        status: 500,
+      }
     );
   }
-  return new Response("Converations Updated Successfully", { status: 200 });
 }
 
-// Deleted item will be provided in an array of object
-export async function DELETE(
-  req: Request,
-  { params }: { params: { userid: string } }
-) {
-  const userCollection = (await getUserTable()) as Collection<Document>;
+export async function PUT(req: NextRequest, context: routeParams) {
+  const userid = context.params.userid;
 
-  const user = await userCollection?.findOne({ userId: params.userid });
-  if (!user) {
-    return new Response("No such user found", { status: 404 });
-  }
-  const data: Array<Object> = await req.json();
-  for (let item of data) {
-    await userCollection.updateOne(
-      { userId: params.userid },
-      { $pull: { conversations: { convid: item.convid } } } // Add taskData to tasks array
+  try {
+    const client = await clientPromise; // Wait for the database connection
+    const db = client.db("LegaleaseAPP");
+    const userCollection = db.collection("userAccounts");
+    const conversationCollection =
+      db.collection("userConversations") ??
+      (await db.createCollection("userConversations"));
+
+    const user = await userCollection.findOne({ userId: new ObjectId(userid) });
+    if (!user) {
+      return new Response("No Such User", { status: 404 });
+    }
+
+    const updatedData: Array<Document> = await req.json();
+
+    if (updatedData.length === 0) {
+      return NextResponse.json(
+        { message: "No Data to Update" },
+        { status: 201 }
+      );
+    }
+
+    const bulkOps = updatedData.map(
+      ({ convid, userId, _id, ...restOfData }) => ({
+        updateOne: {
+          filter: { convid: convid, userId: userid },
+          update: { $set: restOfData },
+        },
+      })
+    );
+
+    const res = await conversationCollection.bulkWrite(bulkOps, { ordered: true });
+    return NextResponse.json(
+      { message: "Updated Conversations Successfully", json: res },
+      { status: 200 }
+    );
+  } catch (error) {
+    return new Response(
+      "Fatal Error occured while updating user Conversations",
+      {
+        status: 500,
+      }
     );
   }
-  return new Response("Deleted Data Successfully", { status: 200 });
-  // return new Response("Fatal Error occured while getting user data", {
-  //   status: 500,
-  // });
+}
+
+export async function POST(req: NextRequest, context: routeParams) {
+  const userid = context.params.userid;
+
+  try {
+    const client = await clientPromise; // Wait for the database connection
+    const db = client.db("LegaleaseAPP");
+    const userCollection = db.collection("userAccounts");
+    const conversationCollection =
+      db.collection("userConversations") ??
+      (await db.createCollection("userConversations"));
+
+    const user = await userCollection.findOne({ userId: new ObjectId(userid) });
+    if (!user) {
+      return new Response("No Such User", { status: 404 });
+    }
+
+    const data: Array<Document> = await req.json();
+
+    const dataWithUserId = data.map((value) => ({
+      ...value,
+      title:"New Prompt",
+      convid: uuidv4(),
+      userId: userid,
+    }));
+
+    const res = await conversationCollection.insertMany(dataWithUserId);
+
+    return NextResponse.json(
+      {
+        message: "Inserted data Successfully",
+        serverResponse: res,
+        data: dataWithUserId,
+      },
+
+      { status: 200 }
+    );
+  } catch (error) {
+    return new Response("Fatal Error occured while inserting user projects", {
+      status: 500,
+    });
+    // res.status(500).json({ error: 'Error fetching data from MongoDB' });
+  }
+}
+
+export async function DELETE(req: NextRequest, context: routeParams) {
+  const userid = context.params.userid;
+  const convid = req.nextUrl.searchParams.get("convid");
+
+  try {
+    const client = await clientPromise; // Wait for the database connection
+    const db = client.db("LegaleaseAPP");
+    const userCollection = db.collection("userAccounts");
+    const conversationCollection =
+      db.collection("userConversations") ??
+      (await db.createCollection("userConversations"));
+
+    const chatCollection =
+      db.collection("userChats") ?? (await db.createCollection("userChats"));
+
+    const user = await userCollection.findOne({ userId: new ObjectId(userid) });
+    if (!user) {
+      return new Response("No Such User", { status: 404 });
+    }
+
+    const conv_res = await conversationCollection.deleteOne({
+      userId: userid,
+      convid: convid,
+    });
+
+    const chat_res = await chatCollection.deleteMany({
+      userId: userid,
+      convid: convid,
+    });
+
+    if (conv_res.deletedCount) {
+      return NextResponse.json(
+        {
+          message: "No such data to delete",
+          conv_res: conv_res,
+          chat_res: chat_res,
+        },
+        { status: 201 }
+      );
+    } else {
+      return NextResponse.json(
+        {
+          message: "Deleted data Successfully",
+          conv_res: conv_res,
+          chat_res: chat_res,
+        },
+        { status: 200 }
+      );
+    }
+  } catch (error) {
+    console.error(error);
+    return new Response("Fatal Error occured while deleting user projects", {
+      status: 500,
+    });
+    // res.status(500).json({ error: 'Error fetching data from MongoDB' });
+  }
 }
